@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const cors = require('cors');
 const { drizzle } = require('drizzle-orm/libsql');
 const { eq, sql } = require('drizzle-orm');
 const { integer, sqliteTable, text } = require('drizzle-orm/sqlite-core');
@@ -53,6 +54,11 @@ function parseId(value) {
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  }),
+);
 app.use(express.json());
 
 app.use(async (req, res, next) => {
